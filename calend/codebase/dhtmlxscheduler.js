@@ -1335,7 +1335,29 @@ dataProcessor.prototype = {
             n > a.getHours() && (a.setHours(n), e = a.valueOf()), t = e.valueOf() + s
         }
         var d = new Date(t);
+        
+        //khet 2018-08-20 , comment old code
         a.valueOf() == d.valueOf() && d.setTime(d.valueOf() + s), r.start_date = r.start_date || a, r.end_date = r.end_date || d, r.text = r.text || this.locale.labels.new_event, r.id = this._drag_id = r.id || this.uid(), this._drag_mode = "new-size", this._loading = !0;
+
+        //khet 2018-08-20 , add new code
+        //start        
+        //a.valueOf() == d.valueOf() && d.setTime(d.valueOf() + s), r.start_date = r.start_date || a, r.end_date = r.end_date || d, r.text = r.text || this.locale.labels.new_event, r.id = this._drag_id = r.id || this.uid(), this._drag_mode = "new-size", this._loading = !0;
+        //khet 2018-08-20 , add code alert
+        //var remark = 'ทดสอบ';
+        //r.push('remark');
+        /*r = {
+            'start_date': r.start_date,
+            'end_date':r.end_date,
+            'text':r.text,
+            'remark':'ทดสอบ'
+        };
+        alert(r['text']);
+        alert(r['start_date']);
+        alert(r['end_date']);
+        alert(r['remark']);*/
+        //end
+        //khet 2018-08-20 , add new code
+
         var o = this.addEvent(r);
         return this.callEvent("onEventCreated", [this._drag_id, i]), this._loading = !1, this._drag_event = {}, this._on_mouse_up(i), o
     }, scheduler._on_dbl_click = function(e, t) {

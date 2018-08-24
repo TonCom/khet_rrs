@@ -146,7 +146,8 @@ scheduler.attachEvent("onTemplatesReady",function(){
 		return (count >= scheduler.config.collision_limit);
 	});
 	
-	scheduler.addEvent=function(start_date,end_date,text,id,extra_data){
+	//khet 2018-08-20 , edit code - section -> remark
+	scheduler.addEvent=function(start_date,end_date,text,id,extra_data,remark){
 		var ev=start_date;
 		if (arguments.length!=1){
 			ev=extra_data||{};
@@ -154,10 +155,12 @@ scheduler.attachEvent("onTemplatesReady",function(){
 			ev.end_date=end_date;
 			ev.text=text;
 			ev.id=id;
+			ev.remark=remark;
 			ev.layer = this.defaultLayer;
 		}
 		ev.id = ev.id||scheduler.uid();
 		ev.text = ev.text||"";
+		ev.remark = ev.remark||"";
 		
 		
 		if (typeof ev.start_date == "string")  ev.start_date=this.templates.api_date(ev.start_date);
