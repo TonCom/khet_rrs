@@ -39,11 +39,19 @@
 					scheduler.destroyCalendar()
 				}
 			});
-	}
+	}    
 
+/*   
+   $(document).on('click', '.button-trash', function() {
+    alert('hello');
+   });
 
-    
+$(document).on('click', '.dhx_save_btn', function() {
+    alert("button save click");
+});
+*/
 </script>
+
 
 <body onload="init();">
    <div id="scheduler_here" class="dhx_cal_container" style='height:768px;'>

@@ -57,7 +57,10 @@ window.dhtmlXScheduler = window.scheduler = {
             } else i = r.apply(this, arguments);
             return t._patch && t._patch(this), i || this
         }, window[e].prototype = r.prototype, i && dhtmlXHeir(window[e].prototype, i))
-    }, dhtmlxAjax = {
+    }, 
+
+    
+    dhtmlxAjax = {
         get: function(e, t) {
             var i = new dtmlXMLLoaderObject(!0);
             return i.async = arguments.length < 3, i.waitCall = t, i.loadXML(e), i
@@ -1360,7 +1363,10 @@ dataProcessor.prototype = {
 
         var o = this.addEvent(r);
         return this.callEvent("onEventCreated", [this._drag_id, i]), this._loading = !1, this._drag_event = {}, this._on_mouse_up(i), o
-    }, scheduler._on_dbl_click = function(e, t) {
+    },
+        //start db_click create data,khet 2018-08-27
+
+     scheduler._on_dbl_click = function(e, t) {
         if (t = t || e.target || e.srcElement, !this.config.readonly) {
             var i = scheduler._getClassName(t).split(" ")[0];
             switch (i) {
@@ -1390,7 +1396,13 @@ dataProcessor.prototype = {
                     else if (t.parentNode && t != this) return scheduler._on_dbl_click(e, t.parentNode)
             }
         }
-    }, scheduler._get_column_index = function(e) {
+    },
+        //end db_click create data,khet 2018-08-27
+
+
+        //start drag create data,khet 2018-08-27
+
+    scheduler._get_column_index = function(e) {
         var t = 0;
         if (this._cols) {
             for (var i = 0, r = 0; i + this._cols[r] < e && r < this._cols.length;) i += this._cols[r], r++;
@@ -1399,13 +1411,25 @@ dataProcessor.prototype = {
                 for (; t >= 1 && this._ignores[Math.floor(t)];) t--
         }
         return t
-    }, scheduler._week_indexes_from_pos = function(e) {
+    },
+        //end drag create data,khet 2018-08-27
+
+
+        //start drag create data in week,khet 2018-08-27
+
+     scheduler._week_indexes_from_pos = function(e) {
         if (this._cols) {
             var t = this._get_column_index(e.x);
             return e.x = Math.min(this._cols.length - 1, Math.max(0, Math.ceil(t) - 1)), e.y = Math.max(0, Math.ceil(60 * e.y / (this.config.time_step * this.config.hour_size_px)) - 1) + this.config.first_hour * (60 / this.config.time_step), e
         }
         return e
-    }, scheduler._mouse_coords = function(e) {
+    },
+        //end drag create data in week,khet 2018-08-27
+
+
+        //start drag&db_click create data in day,week,month ,khet 2018-08-27
+
+     scheduler._mouse_coords = function(e) {
         var t, i = document.body,
             r = document.documentElement;
         t = _isIE || !e.pageX && !e.pageY ? {
@@ -1428,16 +1452,31 @@ dataProcessor.prototype = {
             }))), t.x = 0
         } else t = this._week_indexes_from_pos(t);
         return t.timestamp = +new Date, t
-    }, scheduler._close_not_saved = function() {
+    }, 
+        //end drag&db_click create data in day,week,month ,khet 2018-08-27
+
+        //start table calendar ,khet 2018-08-27
+
+    scheduler._close_not_saved = function() {
         if ((new Date).valueOf() - (scheduler._new_event || 0) > 500 && scheduler._edit_id) {
             var e = scheduler.locale.labels.confirm_closing;
             scheduler._dhtmlx_confirm(e, scheduler.locale.labels.title_confirm_closing, function() {
                 scheduler.editStop(scheduler.config.positive_closing)
             }), e && (this._drag_id = this._drag_pos = this._drag_mode = null)
         }
-    }, scheduler._correct_shift = function(e, t) {
+    }, 
+        //end table calendar ,khet 2018-08-27
+
+        //start show mark database ,khet 2018-08-27
+
+    scheduler._correct_shift = function(e, t) {
         return e -= 6e4 * (new Date(scheduler._min_date).getTimezoneOffset() - new Date(e).getTimezoneOffset()) * (t ? -1 : 1);
-    }, scheduler._is_pos_changed = function(e, t) {
+    }, 
+        //end show mark database ,khet 2018-08-27
+
+        //start drag move data in day,week,month ,khet 2018-08-27
+
+    scheduler._is_pos_changed = function(e, t) {
         function i(e, t, i) {
             return !!(Math.abs(e - t) > i)
         }
@@ -1445,7 +1484,11 @@ dataProcessor.prototype = {
         var r = 100,
             s = 5;
         return !!(this._drag_pos.has_moved || !this._drag_pos.timestamp || t.timestamp - this._drag_pos.timestamp > r || i(e.ev.clientX, t.ev.clientX, s) || i(e.ev.clientY, t.ev.clientY, s))
-    }, scheduler._correct_drag_start_date = function(e) {
+    }, 
+        //end drag move data in day,week,month ,khet 2018-08-27
+
+        //start correct drag start date ,khet 2018-08-29 ==== NOT WORKING
+    scheduler._correct_drag_start_date = function(e) {
         var t;
         scheduler.matrix && (t = scheduler.matrix[scheduler._mode]), t = t || {
             x_step: 1,
@@ -1454,7 +1497,13 @@ dataProcessor.prototype = {
         var i = 1;
         return (t._start_correction || t._end_correction) && (i = 60 * (t.last_hour || 0) - (60 * e.getHours() + e.getMinutes()) || 1),
             1 * e + (scheduler._get_fictional_event_length(e, i, t) - i)
-    }, scheduler._correct_drag_end_date = function(e, t) {
+    }, 
+
+        //end correct drag start date ,khet 2018-08-29 ==== NOT WORKING
+
+        //start correct drag end date ,khet 2018-08-29 ==== NOT WORKING
+
+    scheduler._correct_drag_end_date = function(e, t) {
         var i;
         scheduler.matrix && (i = scheduler.matrix[scheduler._mode]), i = i || {
             x_step: 1,
@@ -1462,7 +1511,12 @@ dataProcessor.prototype = {
         };
         var r = 1 * e + scheduler._get_fictional_event_length(e, t, i);
         return new Date(1 * r - (scheduler._get_fictional_event_length(r, -1, i, -1) + 1))
-    }, scheduler._on_mouse_move = function(e) {
+    }, 
+        //end correct drag start date ,khet 2018-08-29 ==== NOT WORKING
+
+        //start  drag start date ,khet 2018-08-29 
+
+    scheduler._on_mouse_move = function(e) {
         if (this._drag_mode) {
             var t = this._mouse_coords(e);
             if (this._is_pos_changed(this._drag_pos, t)) {
@@ -1538,7 +1592,11 @@ dataProcessor.prototype = {
             var x = this._locate_event(e.target || e.srcElement);
             this.callEvent("onMouseMove", [x, e])
         }
-    }, scheduler._on_mouse_down = function(e, t) {
+    }, 
+         //end  drag start date ,khet 2018-08-29 
+
+         //start  drag end date ,khet 2018-08-29
+    scheduler._on_mouse_down = function(e, t) {
         if (2 != e.button && !this.config.readonly && !this._drag_mode) {
             t = t || e.target || e.srcElement;
             var i = scheduler._getClassName(t).split(" ")[0];
@@ -1579,15 +1637,24 @@ dataProcessor.prototype = {
             }
             this._drag_start = null
         }
-    }, scheduler._get_private_properties = function(e) {
+    }, //end drag end date ,khet 2018-08-29
+
+
+    scheduler._get_private_properties = function(e) {
         var t = {};
         for (var i in e) 0 === i.indexOf("_") && (t[i] = !0);
         return t
-    }, scheduler._clear_temporary_properties = function(e, t) {
+    }, 
+
+
+    scheduler._clear_temporary_properties = function(e, t) {
         var i = this._get_private_properties(e),
             r = this._get_private_properties(t);
         for (var s in r) i[s] || delete t[s]
-    }, scheduler._on_mouse_up = function(e) {
+    }, 
+
+
+    scheduler._on_mouse_up = function(e) {
         if (!e || 2 != e.button || !this._mobile) {
             if (this._drag_mode && this._drag_id) {
                 this._els.dhx_cal_data[0].style.cursor = "default";
@@ -1610,16 +1677,32 @@ dataProcessor.prototype = {
             }
             this._drag_id = null, this._drag_mode = null, this._drag_pos = null
         }
-    }, scheduler._trigger_dyn_loading = function() {
+    }, 
+
+
+
+    scheduler._trigger_dyn_loading = function() {
         return this._load_mode && this._load() ? (this._render_wait = !0, !0) : !1
-    }, scheduler.update_view = function() {
+    }, 
+
+
+
+    scheduler.update_view = function() {
         this._reset_ignores();
         var e = this[this._mode + "_view"];
         return e ? e(!0) : this._reset_scale(),
             this._trigger_dyn_loading() ? !0 : void this.render_view_data()
-    }, scheduler.isViewExists = function(e) {
+    }, 
+
+
+
+    scheduler.isViewExists = function(e) {
         return !!(scheduler[e + "_view"] || scheduler.date[e + "_start"] && scheduler.templates[e + "_date"] && scheduler.templates[e + "_scale_date"])
-    }, scheduler._set_aria_buttons_attrs = function() {
+    }, 
+
+
+
+    scheduler._set_aria_buttons_attrs = function() {
         for (var e = ["dhx_cal_next_button", "dhx_cal_prev_button", "dhx_cal_tab", "dhx_cal_today_button"], t = 0; t < e.length; t++)
             for (var i = this._els[e[t]], r = 0; i && r < i.length; r++) {
                 var s = i[r].getAttribute("name"),
@@ -1627,7 +1710,11 @@ dataProcessor.prototype = {
                 s && (a = this.locale.labels[s] || a),
                     "dhx_cal_next_button" == e[t] ? a = this.locale.labels.next : "dhx_cal_prev_button" == e[t] && (a = this.locale.labels.prev), this._waiAria.headerButtonsAttributes(i[r], a || "")
             }
-    }, scheduler.updateView = function(e, t) {
+    }, 
+
+
+
+    scheduler.updateView = function(e, t) {
         e = e || this._date, t = t || this._mode;
         var i = "dhx_cal_data",
             r = this._obj,
@@ -1646,9 +1733,15 @@ dataProcessor.prototype = {
                     this._waiAria.headerToggleState(_, !0)) : this._waiAria.headerToggleState(_, !1), _.className = c
             }
         this.update_view(), "number" == typeof o && (this._els[i][0].scrollTop = o), "number" == typeof n && this._els[d] && this._els[d][0] && (this._els[d][0].scrollTop = n)
-    }, scheduler.setCurrentView = function(e, t) {
+    }, 
+
+
+    scheduler.setCurrentView = function(e, t) {
         this.callEvent("onBeforeViewChange", [this._mode, this._date, t || this._mode, e || this._date]) && (this.updateView(e, t), this.callEvent("onViewChange", [this._mode, this._date]))
-    }, scheduler._render_x_header = function(e, t, i, r, s) {
+    }, 
+
+
+    scheduler._render_x_header = function(e, t, i, r, s) {
         s = s || 0;
         var a = document.createElement("div");
         a.className = "dhx_scale_bar", this.templates[this._mode + "_scalex_class"] && (a.className += " " + this.templates[this._mode + "_scalex_class"](i));
@@ -1656,16 +1749,25 @@ dataProcessor.prototype = {
         "month" == this._mode && 0 === e && this.config.left_border && (a.className += " dhx_scale_bar_border", t += 1), this.set_xy(a, n, this.xy.scale_height - 2, t, s);
         var d = this.templates[this._mode + "_scale_date"](i, this._mode);
         a.innerHTML = d, this._waiAria.dayHeaderAttr(a, d), r.appendChild(a)
-    }, scheduler._get_columns_num = function(e, t) {
+    }, 
+
+
+    scheduler._get_columns_num = function(e, t) {
         var i = 7;
         if (!scheduler._table_view) {
             var r = scheduler.date["get_" + scheduler._mode + "_end"];
             r && (t = r(e)), i = Math.round((t.valueOf() - e.valueOf()) / 864e5)
         }
         return i
-    }, scheduler._get_timeunit_start = function() {
+    }, 
+
+
+    scheduler._get_timeunit_start = function() {
         return this.date[this._mode + "_start"](new Date(this._date.valueOf()))
-    }, scheduler._get_view_end = function() {
+    }, 
+
+
+    scheduler._get_view_end = function() {
         var e = this._get_timeunit_start(),
             t = scheduler.date.add(e, 1, this._mode);
         if (!scheduler._table_view) {
@@ -1673,7 +1775,10 @@ dataProcessor.prototype = {
             i && (t = i(e))
         }
         return t
-    }, scheduler._calc_scale_sizes = function(e, t, i) {
+    }, 
+
+
+    scheduler._calc_scale_sizes = function(e, t, i) {
         var r = e,
             s = this._get_columns_num(t, i);
         this._process_ignores(t, s, "day", 1);
@@ -3107,7 +3212,23 @@ dataProcessor.prototype = {
                 var t = scheduler._lightbox_controls.defaults.textarea,
                     i = t ? t.height : 200,
                     r = (e.height || i || "130") + "px";
-                return "<div class='dhx_cal_ltext' style='height:" + r + ";'><textarea></textarea></div>";
+                //return "<div class='dhx_cal_ltext' style='height:" + r + ";'><textarea></textarea></div>";
+                
+                // khet , 2018-08-28 , test fix id of textarea
+                // start
+                // create control textarea
+                //return "<div class='dhx_cal_ltext' style='height:" + r + ";'><textarea id='textarea_description'></textarea></div>";
+                r="100px";
+                return  "<div class='dhx_cal_ltext' style='height:" + r + ";'>"+
+                            "<label>ชื่อ: </label>"+
+                            "<textarea id='textarea_name' style='height:75px;'></textarea>"+
+                        "</div>"+
+                        "<div class='dhx_cal_ltext' style='height:" + r + ";'>"+
+                            "<label>รายละเียด: </label>"+
+                            "<textarea id='textarea_description' style='height:75px;'></textarea>"+
+                        "</div>";
+                // end
+                // khet , 2018-08-28 , test fix id of textarea
             },
             set_value: function(e, t, i) {
                 scheduler.form_blocks.textarea._get_input(e).value = t || ""
@@ -3187,7 +3308,9 @@ dataProcessor.prototype = {
                 var p = scheduler._lightbox_controls.defaults.select,
                     x = p ? p.height : 23,
                     b = x || 30;
-                return "<div style='height:" + b + "px;padding-top:0px;font-size:inherit;' class='dhx_section_time'>" + n + "<span style='font-weight:normal; font-size:10pt;'> &nbsp;&ndash;&nbsp; </span>" + n + "</div>"
+                //return "<div style='height:" + b + "px;padding-top:0px;font-size:inherit;' class='dhx_section_time'>" + n + "<span style='font-weight:normal; font-size:10pt;'> &nbsp;&ndash;&nbsp; </span>" + n + "</div>"
+                //khet - 2018-08-29,comment div time code.
+                return ""
             },
             set_value: function(e, t, i, r) {
                 function s(e, t, i) {
@@ -3394,6 +3517,16 @@ dataProcessor.prototype = {
             for (var t = this._lightbox_template, i = this.config.buttons_left, r = "", s = 0; s < i.length; s++) r = this._waiAria.lightboxButtonAttrString(i[s]), t += "<div " + r + " class='dhx_btn_set dhx_left_btn_set " + i[s] + "_set'><div dhx_button='1' class='" + i[s] + "'></div><div>" + scheduler.locale.labels[i[s]] + "</div></div>";
             i = this.config.buttons_right;
             for (var s = 0; s < i.length; s++) r = this._waiAria.lightboxButtonAttrString(i[s]), t += "<div " + r + " class='dhx_btn_set dhx_right_btn_set " + i[s] + "_set' style='float:right;'><div dhx_button='1' class='" + i[s] + "'></div><div>" + scheduler.locale.labels[i[s]] + "</div></div>";
+            
+            // khet, 2018-08-28 , add code ,button for test event click
+            // start |->
+            var test2 = '"test button click"';
+            //t += "<button id='btn_test' onclick='alert("+test2+")' style='width:150px;height:25px;'>Test Save</button>";
+            t += "<button id='btn_test' onclick='test_save()' style='width:150px;height:25px;'>Test Save</button>";
+           
+            // end ->|
+            // khet, 2018-08-28 , add code ,button for test event click           
+
             t += "</div>", e.innerHTML = t, scheduler.config.drag_lightbox && (e.firstChild.onmousedown = scheduler._ready_to_dnd, e.firstChild.onselectstart = function() {
                 return !1
             }, e.firstChild.style.cursor = "move", scheduler._init_dnd_events()), this._waiAria.lightboxAttr(e), document.body.insertBefore(e, document.body.firstChild), this._lightbox = e;
@@ -3410,7 +3543,13 @@ dataProcessor.prototype = {
                     }
                     this.config.wide_form && (t += "<div class='dhx_wrap_section'>");
                     var o = this.locale.labels["section_" + a[s].name];
-                    "string" != typeof o && (o = a[s].name), t += "<div id='" + a[s].id + "' class='dhx_cal_lsection'>" + d + "<label>" + o + "</label></div>" + n.render.call(this, a[s]), t += "</div>"
+                    "string" != typeof o && (o = a[s].name), 
+                    //t += "<div id='" + a[s].id + "' class='dhx_cal_lsection'>" + d + "<label>" + o + "</label></div>" + n.render.call(this, a[s]), t += "</div>"
+                    //khet, 2018-08-29
+                    //start comment code and add new code
+                    t += n.render.call(this, a[s]),
+                     t += "</div>"
+                     //end comment code and add new code
                 }
             }
             for (var l = e.getElementsByTagName("div"), s = 0; s < l.length; s++) {

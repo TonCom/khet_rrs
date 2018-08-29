@@ -146,7 +146,7 @@ This software is covered by GPL license. You also can obtain Commercial or Enter
     color: #0288d1;
     box-shadow: none;
     outline: 0
-}
+} 
 
 .dhtmlx_popup_button.dhtmlx_cancel_button div:active {
     background-color: #d9edf8;
@@ -2837,7 +2837,7 @@ textarea.dhx_cal_editor {
 }
 
 .dhx_cal_light_wide .dhx_cal_ltext {
-    margin: 0 0 0 117px
+    /*margin: 0 0 0 117px*/
 }
 
 .dhx_multi_select_custom {
